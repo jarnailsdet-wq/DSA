@@ -1,23 +1,30 @@
-def remove_duplicates(nums):
-    """Remove duplicates in-place from sorted list `nums`.
-    Returns the number of unique elements `k` and modifies `nums`
-    so that the first `k` entries are the unique values.
-    For clearer display this example fills the remaining slots with '_'.
-    """
-    if not nums:
-        return 0
-    write = 1
-    for i in range(1, len(nums)):
-        if nums[i] != nums[write - 1]:
-            nums[write] = nums[i]
-            write += 1
-    for i in range(write, len(nums)):
-        nums[i] = '_'
-    return write
+
+
+from typing import List
+
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        # --- PART 1: बेस केस और पॉइंटर सेटअप (Initialization) ---
+        if not nums:
+            return 0
+        
+        # 'i' वह जगह है जहाँ हम आखिरी unique नंबर रखते हैं
+        i = 0 
+
+        # --- PART 2: स्कैनिंग और अपडेटिंग (The Scanning Loop) ---
+        for j in range(1, len(nums)):
+            # अगर 'j' पर नया नंबर मिला जो 'i' वाले नंबर से अलग है
+            if nums[j] != nums[i]:
+                i += 1              # unique जगह को आगे बढ़ाएं
+                nums[i] = nums[j]  # नए नंबर को वहाँ शिफ्ट करें
+
+        # --- PART 3: फाइनल काउंट रिटर्न करना (Result) ---
+        # कुल unique नंबर्स 'i + 1' होंगे क्योंकि index 0 से शुरू होता है
+        return i + 1
 
 
 if __name__ == "__main__":
+    solution = Solution()
     nums = [0,0,1,1,1,2,2,3,3,4]
-    k = remove_duplicates(nums)
-    print(k , nums)
-    print(f"{k}, nums = [{', '.join(str(x) for x in nums)}]")
+    new_length = solution.removeDuplicates(nums)
+    print(f"New length: {new_length}, Updated array: {nums[:new_length]}")
